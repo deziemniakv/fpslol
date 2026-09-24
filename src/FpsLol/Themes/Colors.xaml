@@ -1,0 +1,84 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ============================================================ Palette
+         Monochrome base (black / graphite / white) with one very soft cool accent.
+         Status colors are desaturated so they read as information, not as "gamer RGB". -->
+    <Color x:Key="Color.Base">#FF0A0A0C</Color>
+    <Color x:Key="Color.Elevated">#FF141417</Color>
+    <Color x:Key="Color.Text">#FFF4F4F6</Color>
+    <Color x:Key="Color.TextSecondary">#FFA4A4AE</Color>
+    <Color x:Key="Color.TextTertiary">#FF6E6E78</Color>
+    <Color x:Key="Color.Accent">#FFC9D3FF</Color>
+    <Color x:Key="Color.Success">#FF8BE3BD</Color>
+    <Color x:Key="Color.Warning">#FFF1CB7E</Color>
+    <Color x:Key="Color.Danger">#FFF19A9A</Color>
+    <Color x:Key="Color.Info">#FFAFC0FF</Color>
+
+    <SolidColorBrush x:Key="Brush.Base" Color="{StaticResource Color.Base}" />
+    <SolidColorBrush x:Key="Brush.Elevated" Color="{StaticResource Color.Elevated}" />
+    <SolidColorBrush x:Key="Brush.Text" Color="{StaticResource Color.Text}" />
+    <SolidColorBrush x:Key="Brush.TextSecondary" Color="{StaticResource Color.TextSecondary}" />
+    <SolidColorBrush x:Key="Brush.TextTertiary" Color="{StaticResource Color.TextTertiary}" />
+    <SolidColorBrush x:Key="Brush.TextInverse" Color="{StaticResource Color.Base}" />
+    <SolidColorBrush x:Key="Brush.Accent" Color="{StaticResource Color.Accent}" />
+    <SolidColorBrush x:Key="Brush.Success" Color="{StaticResource Color.Success}" />
+    <SolidColorBrush x:Key="Brush.Warning" Color="{StaticResource Color.Warning}" />
+    <SolidColorBrush x:Key="Brush.Danger" Color="{StaticResource Color.Danger}" />
+    <SolidColorBrush x:Key="Brush.Info" Color="{StaticResource Color.Info}" />
+
+    <SolidColorBrush x:Key="Brush.SuccessSoft" Color="#1F8BE3BD" />
+    <SolidColorBrush x:Key="Brush.WarningSoft" Color="#1FF1CB7E" />
+    <SolidColorBrush x:Key="Brush.DangerSoft" Color="#1FF19A9A" />
+    <SolidColorBrush x:Key="Brush.InfoSoft" Color="#1FAFC0FF" />
+    <SolidColorBrush x:Key="Brush.NeutralSoft" Color="#14FFFFFF" />
+
+    <SolidColorBrush x:Key="Brush.Divider" Color="#12FFFFFF" />
+    <SolidColorBrush x:Key="Brush.Track" Color="#17FFFFFF" />
+    <SolidColorBrush x:Key="Brush.HoverOverlay" Color="#0FFFFFFF" />
+    <SolidColorBrush x:Key="Brush.PressedOverlay" Color="#08FFFFFF" />
+    <SolidColorBrush x:Key="Brush.Popup" Color="#F5151518" />
+    <SolidColorBrush x:Key="Brush.PopupBorder" Color="#24FFFFFF" />
+    <SolidColorBrush x:Key="Brush.Scrim" Color="#99000000" />
+
+    <!-- ============================================================ Glass surfaces
+         These are replaced at runtime by ThemeService according to the
+         "Liquid Glass intensity" and "Blur" settings — always use DynamicResource. -->
+    <SolidColorBrush x:Key="Brush.WindowTint" Color="#D80A0A0C" />
+
+    <LinearGradientBrush x:Key="Brush.Glass" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0" Color="#12FFFFFF" />
+        <GradientStop Offset="1" Color="#07FFFFFF" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="Brush.GlassStrong" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0" Color="#F21D1D21" />
+        <GradientStop Offset="1" Color="#F2141417" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="Brush.GlassHover" Color="#1AFFFFFF" />
+
+    <LinearGradientBrush x:Key="Brush.GlassBorder" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0" Color="#2AFFFFFF" />
+        <GradientStop Offset="1" Color="#0AFFFFFF" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="Brush.Sidebar" Color="#0AFFFFFF" />
+
+    <!-- Soft ambient light used behind the content ("liquid" light pooling). -->
+    <RadialGradientBrush x:Key="Brush.AmbientLight" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+        <GradientStop Offset="0" Color="#1CFFFFFF" />
+        <GradientStop Offset="0.55" Color="#08FFFFFF" />
+        <GradientStop Offset="1" Color="#00FFFFFF" />
+    </RadialGradientBrush>
+    <RadialGradientBrush x:Key="Brush.AmbientCool" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+        <GradientStop Offset="0" Color="#1EA9BCFF" />
+        <GradientStop Offset="0.6" Color="#07A9BCFF" />
+        <GradientStop Offset="1" Color="#00A9BCFF" />
+    </RadialGradientBrush>
+
+    <!-- Chart series -->
+    <SolidColorBrush x:Key="Brush.SeriesCpu" Color="#FFF4F4F6" />
+    <SolidColorBrush x:Key="Brush.SeriesGpu" Color="#FFAFC0FF" />
+    <SolidColorBrush x:Key="Brush.SeriesRam" Color="#FFB9B9C3" />
+</ResourceDictionary>

@@ -1,0 +1,249 @@
+<UserControl x:Class="FpsLol.Views.Pages.OptimizeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c="clr-namespace:FpsLol.Controls">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Style="{StaticResource PageScroll}">
+            <StackPanel MaxWidth="1100">
+                <StackPanel Margin="0,0,0,22">
+                    <TextBlock Text="Optimize" Style="{StaticResource Text.H1}" />
+                    <TextBlock Text="{Binding Subtitle}" Style="{StaticResource Text.Secondary}" Margin="0,4,0,0" />
+                </StackPanel>
+
+                <!-- ============================================ Idle -->
+                <Border Style="{StaticResource Card}" Padding="36,34" Visibility="{Binding State, Converter={StaticResource EqualsToVisibility}, ConverterParameter=Idle}">
+                    <StackPanel>
+                        <Border Style="{StaticResource IconTile}" Width="50" Height="50" CornerRadius="15" HorizontalAlignment="Left">
+                            <c:IconView Data="{StaticResource Icon.Zap}" Width="22" Height="22" />
+                        </Border>
+                        <TextBlock Text="Optimize your system for gaming" Style="{StaticResource Text.H1}" FontSize="24" Margin="0,18,0,0" />
+                        <TextBlock Style="{StaticResource Text.Secondary}" Margin="0,8,0,0" MaxWidth="680" HorizontalAlignment="Left"
+                                   Text="FPS.LOL scans Windows gaming, GPU, power, background and network settings, then shows exactly what it would change. You choose what to apply. Before anything changes, a backup is created — and every change is verified afterwards." />
+                        <TextBlock Text="{Binding LastScanText}" Style="{StaticResource Text.Caption}" Margin="0,14,0,0" />
+                        <Button Style="{StaticResource Btn.Primary}" Command="{Binding ScanCommand}" HorizontalAlignment="Left" Margin="0,24,0,0" Padding="24,11">
+                            <StackPanel Orientation="Horizontal">
+                                <c:IconView Data="{StaticResource Icon.Search}" Width="15" Height="15" Margin="0,0,8,0" />
+                                <TextBlock Text="Scan system" />
+                            </StackPanel>
+                        </Button>
+                        <UniformGrid Columns="3" Margin="0,34,0,0">
+                            <StackPanel Margin="0,0,16,0">
+                                <c:IconView Data="{StaticResource Icon.ShieldCheck}" Width="18" Height="18" HorizontalAlignment="Left" Foreground="{StaticResource Brush.TextSecondary}" />
+                                <TextBlock Text="Backup first" FontWeight="SemiBold" Margin="0,10,0,0" />
+                                <TextBlock Text="FPS.LOL backup and an optional Windows restore point are created before any change." Style="{StaticResource Text.Caption}" Margin="0,4,0,0" />
+                            </StackPanel>
+                            <StackPanel Margin="0,0,16,0">
+                                <c:IconView Data="{StaticResource Icon.CircleCheck}" Width="18" Height="18" HorizontalAlignment="Left" Foreground="{StaticResource Brush.TextSecondary}" />
+                                <TextBlock Text="Verified changes" FontWeight="SemiBold" Margin="0,10,0,0" />
+                                <TextBlock Text="Each change is read back after applying. Failures are rolled back and reported." Style="{StaticResource Text.Caption}" Margin="0,4,0,0" />
+                            </StackPanel>
+                            <StackPanel>
+                                <c:IconView Data="{StaticResource Icon.History}" Width="18" Height="18" HorizontalAlignment="Left" Foreground="{StaticResource Brush.TextSecondary}" />
+                                <TextBlock Text="Restore anytime" FontWeight="SemiBold" Margin="0,10,0,0" />
+                                <TextBlock Text="Every change is listed in the Restore Center and can be reverted individually." Style="{StaticResource Text.Caption}" Margin="0,4,0,0" />
+                            </StackPanel>
+                        </UniformGrid>
+                    </StackPanel>
+                </Border>
+
+                <!-- ============================================ Scanning / applying -->
+                <Border Style="{StaticResource Card}" Padding="30"
+                        Visibility="{Binding State, Converter={StaticResource EqualsToVisibility}, ConverterParameter=Scanning|Applying}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <c:Spinner Width="22" Height="22" />
+                            <TextBlock Text="{Binding ProgressText}" Style="{StaticResource Text.H3}" Margin="14,0,0,0" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <TextBlock Text="Windows may ask for administrator permission for some changes." Style="{StaticResource Text.Caption}" Margin="36,6,0,20"
+                                   Visibility="{Binding State, Converter={StaticResource EqualsToVisibility}, ConverterParameter=Applying}" />
+                        <StackPanel Margin="0,20,0,0" Visibility="{Binding State, Converter={StaticResource EqualsToVisibility}, ConverterParameter=Scanning}">
+                            <c:SkeletonBlock Height="62" CornerRadius="14" Margin="0,0,0,10" />
+                            <c:SkeletonBlock Height="62" CornerRadius="14" Margin="0,0,0,10" />
+                            <c:SkeletonBlock Height="62" CornerRadius="14" Margin="0,0,0,10" />
+                            <c:SkeletonBlock Height="62" CornerRadius="14" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- ============================================ Review -->
+                <StackPanel Visibility="{Binding State, Converter={StaticResource EqualsToVisibility}, ConverterParameter=Review}">
+                    <Grid Margin="0,0,0,6">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource Text.H2}">
+                                <Run Text="{Binding ActionableCount, Mode=OneWay}" /><Run Text=" optimizations available" />
+                            </TextBlock>
+                            <TextBlock Text="Pre-selected items are safe and broadly beneficial. Review the others before selecting them." Style="{StaticResource Text.Caption}" Margin="0,4,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <Button Style="{StaticResource Btn.Ghost}" Content="Recommended" Command="{Binding SelectRecommendedCommand}" />
+                            <Button Style="{StaticResource Btn.Ghost}" Content="Select all" Command="{Binding SelectAllCommand}" />
+                            <Button Style="{StaticResource Btn.Ghost}" Content="Select none" Command="{Binding SelectNoneCommand}" />
+                            <Button Style="{StaticResource Btn.Glass}" Command="{Binding ScanCommand}" Margin="8,0,0,0" ToolTip="Scan again">
+                                <c:IconView Data="{StaticResource Icon.Refresh}" Width="14" Height="14" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <Border Style="{StaticResource Card}" Margin="0,12,0,0" Visibility="{Binding HasItems, Converter={StaticResource InverseBoolToVisibility}}">
+                        <StackPanel HorizontalAlignment="Center" Margin="0,20">
+                            <c:IconView Data="{StaticResource Icon.CircleCheck}" Width="34" Height="34" Foreground="{StaticResource Brush.Success}" />
+                            <TextBlock Text="System optimized" Style="{StaticResource Text.H2}" HorizontalAlignment="Center" Margin="0,12,0,0" />
+                            <TextBlock Text="Every supported setting is already in the recommended state." Style="{StaticResource Text.Secondary}" HorizontalAlignment="Center" Margin="0,4,0,0" />
+                        </StackPanel>
+                    </Border>
+
+                    <ItemsControl ItemsSource="{Binding ItemsView}">
+                        <ItemsControl.GroupStyle>
+                            <GroupStyle HeaderTemplate="{StaticResource GroupHeaderTemplate}" />
+                        </ItemsControl.GroupStyle>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource Card}" Padding="18,16" Margin="0,0,0,8">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="36" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <CheckBox IsChecked="{Binding IsSelected}" VerticalAlignment="Top" Margin="0,1,0,0"
+                                                  Visibility="{Binding IsSelectable, Converter={StaticResource BoolToVisibility}}" />
+                                        <c:IconView Data="{StaticResource Icon.Info}" Width="17" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="{StaticResource Brush.Info}"
+                                                    Visibility="{Binding IsStartupReview, Converter={StaticResource BoolToVisibility}}" />
+                                        <StackPanel Grid.Column="1">
+                                            <WrapPanel>
+                                                <TextBlock Text="{Binding Title}" Style="{StaticResource Text.H3}" Margin="0,0,10,4" />
+                                                <Border Style="{StaticResource Badge}" Margin="0,0,6,4" Background="{Binding Risk, Converter={StaticResource ToneSoftBrush}}"
+                                                        Visibility="{Binding IsSelectable, Converter={StaticResource BoolToVisibility}}">
+                                                    <TextBlock Text="{Binding RiskText}" Style="{StaticResource Badge.Text}" Foreground="{Binding Risk, Converter={StaticResource ToneBrush}}" />
+                                                </Border>
+                                                <Border Style="{StaticResource Badge}" Margin="0,0,6,4" Background="{StaticResource Brush.InfoSoft}"
+                                                        Visibility="{Binding NeedsRestart, Converter={StaticResource BoolToVisibility}}">
+                                                    <TextBlock Text="{Binding RestartText}" Style="{StaticResource Badge.Text}" Foreground="{StaticResource Brush.Info}" />
+                                                </Border>
+                                                <Border Style="{StaticResource Badge}" Margin="0,0,6,4" Visibility="{Binding ShowAdmin, Converter={StaticResource BoolToVisibility}}">
+                                                    <TextBlock Text="ADMIN" Style="{StaticResource Badge.Text}" />
+                                                </Border>
+                                            </WrapPanel>
+                                            <TextBlock Text="{Binding Description}" Style="{StaticResource Text.Secondary}" FontSize="12.5" Margin="0,2,0,0" />
+                                            <StackPanel Orientation="Horizontal" Margin="0,8,0,0" Visibility="{Binding ShowChange, Converter={StaticResource BoolToVisibility}}">
+                                                <TextBlock Text="{Binding Current}" Foreground="{StaticResource Brush.TextSecondary}" FontSize="12.5" />
+                                                <c:IconView Data="{StaticResource Icon.ArrowRight}" Width="13" Height="13" Margin="8,0" Foreground="{StaticResource Brush.TextTertiary}" />
+                                                <TextBlock Text="{Binding Recommended}" FontWeight="SemiBold" FontSize="12.5" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <Button Grid.Column="2" Style="{StaticResource Btn.Glass}" Content="Review startup apps" VerticalAlignment="Center"
+                                                Command="{Binding DataContext.OpenStartupCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                Visibility="{Binding IsStartupReview, Converter={StaticResource BoolToVisibility}}" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <!-- ============================================ Results -->
+                <StackPanel Visibility="{Binding State, Converter={StaticResource EqualsToVisibility}, ConverterParameter=Results}">
+                    <Border Style="{StaticResource Card}" Padding="28,24" Margin="0,0,0,12">
+                        <Grid>
+                            <StackPanel>
+                                <TextBlock Text="{Binding ResultSummary}" Style="{StaticResource Text.H1}" FontSize="22" />
+                                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                    <Border Style="{StaticResource Badge}" Background="{StaticResource Brush.SuccessSoft}" Margin="0,0,6,0">
+                                        <TextBlock Style="{StaticResource Badge.Text}" Foreground="{StaticResource Brush.Success}"><Run Text="{Binding SuccessCount, Mode=OneWay}" /><Run Text=" SUCCESS" /></TextBlock>
+                                    </Border>
+                                    <Border Style="{StaticResource Badge}" Background="{StaticResource Brush.DangerSoft}" Margin="0,0,6,0">
+                                        <TextBlock Style="{StaticResource Badge.Text}" Foreground="{StaticResource Brush.Danger}"><Run Text="{Binding FailedCount, Mode=OneWay}" /><Run Text=" FAILED" /></TextBlock>
+                                    </Border>
+                                    <Border Style="{StaticResource Badge}" Background="{StaticResource Brush.WarningSoft}">
+                                        <TextBlock Style="{StaticResource Badge.Text}" Foreground="{StaticResource Brush.Warning}"><Run Text="{Binding SkippedCount, Mode=OneWay}" /><Run Text=" SKIPPED" /></TextBlock>
+                                    </Border>
+                                </StackPanel>
+                                <TextBlock Text="{Binding RestorePointText}" Style="{StaticResource Text.Caption}" Margin="0,12,0,0" Visibility="{Binding RestorePointText, Converter={StaticResource NullToVisibility}}" />
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <TextBlock Text="System score" Style="{StaticResource Text.Overline}" HorizontalAlignment="Right" />
+                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                    <TextBlock Text="{Binding ScoreBefore}" Style="{StaticResource Text.Metric}" Foreground="{StaticResource Brush.TextTertiary}" />
+                                    <c:IconView Data="{StaticResource Icon.ArrowRight}" Width="18" Height="18" Margin="10,0" Foreground="{StaticResource Brush.TextTertiary}" />
+                                    <TextBlock Text="{Binding ScoreAfter}" Style="{StaticResource Text.Metric}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border CornerRadius="14" Padding="18,14" Margin="0,0,0,12" Background="{StaticResource Brush.WarningSoft}" BorderBrush="#33F1CB7E" BorderThickness="1"
+                            Visibility="{Binding RestartRequired, Converter={StaticResource BoolToVisibility}}">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <c:IconView Data="{StaticResource Icon.Alert}" Width="18" Height="18" Foreground="{StaticResource Brush.Warning}" />
+                                <TextBlock Text="Restart required — some changes take effect after Windows restarts." Margin="10,0,0,0" VerticalAlignment="Center" FontWeight="Medium" />
+                            </StackPanel>
+                            <Button Style="{StaticResource Btn.Glass}" Content="Restart now" Command="{Binding RestartNowCommand}" HorizontalAlignment="Right" />
+                        </Grid>
+                    </Border>
+
+                    <ItemsControl ItemsSource="{Binding Results}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource Card}" Padding="18,14" Margin="0,0,0,8">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <c:IconView Data="{Binding Status, Converter={StaticResource StatusIcon}}" Width="19" Height="19" VerticalAlignment="Top"
+                                                    Foreground="{Binding Status, Converter={StaticResource ToneBrush}}" Margin="0,0,14,0" />
+                                        <StackPanel Grid.Column="1">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
+                                                <TextBlock Text="{Binding StatusText}" Style="{StaticResource Text.Caption}" Foreground="{Binding Status, Converter={StaticResource ToneBrush}}" Margin="10,1,0,0" />
+                                            </StackPanel>
+                                            <TextBlock Text="{Binding Message}" Style="{StaticResource Text.Secondary}" FontSize="12.5" Margin="0,3,0,0" />
+                                        </StackPanel>
+                                        <Button Grid.Column="2" Style="{StaticResource Btn.Ghost}" Content="Details" VerticalAlignment="Center"
+                                                Command="{Binding DataContext.ShowDetailsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
+                                                Visibility="{Binding HasDetails, Converter={StaticResource BoolToVisibility}}" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Button Style="{StaticResource Btn.Primary}" Content="Done" Command="{Binding DoneCommand}" MinWidth="110" />
+                        <Button Style="{StaticResource Btn.Glass}" Content="Open Restore Center" Command="{Binding OpenRestoreCenterCommand}" Margin="10,0,0,0" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Sticky apply bar (review state) -->
+        <Border Grid.Row="1" Margin="32,0,32,24" Padding="20,14" CornerRadius="16" MaxWidth="1100"
+                Background="{StaticResource Brush.GlassStrong}" BorderBrush="{StaticResource Brush.PopupBorder}" BorderThickness="1"
+                Visibility="{Binding State, Converter={StaticResource EqualsToVisibility}, ConverterParameter=Review}">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="30" ShadowDepth="8" Direction="270" Opacity="0.4" Color="Black" />
+            </Border.Effect>
+            <Grid>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock FontWeight="SemiBold" VerticalAlignment="Center"><Run Text="{Binding SelectedCount, Mode=OneWay}" /><Run Text=" selected" /></TextBlock>
+                    <Rectangle Width="1" Height="20" Fill="{StaticResource Brush.Divider}" Margin="18,0" />
+                    <CheckBox Style="{StaticResource ToggleSwitch}" IsChecked="{Binding CreateRestorePoint}" />
+                    <TextBlock Text="Create Windows restore point" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource Brush.TextSecondary}" />
+                </StackPanel>
+                <Button Style="{StaticResource Btn.Primary}" Command="{Binding ApplyCommand}" HorizontalAlignment="Right" Padding="22,10">
+                    <StackPanel Orientation="Horizontal">
+                        <c:IconView Data="{StaticResource Icon.Zap}" Width="15" Height="15" Margin="0,0,8,0" />
+                        <TextBlock Text="Apply selected" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
